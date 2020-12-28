@@ -1,3 +1,6 @@
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -163,9 +166,9 @@ public class UIBean {
     }
 
     public static void main(String[] args) {
-        UIBean uiBean = new UIBean();
-        StoreBean storeBean = new StoreBean(uiBean);
-        uiBean.setStoreBean(storeBean);
+        ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+        StoreBean storeBean = (StoreBean) context.getBean("storeBean");
+        UIBean uiBean = (UIBean) context.getBean("uiBean");
 
         for(int userChoice = uiBean.mainMenu(); userChoice > 0 && userChoice <= 4; userChoice = uiBean.mainMenu()) {
             switch(userChoice) {

@@ -2,11 +2,13 @@ import java.util.List;
 import java.util.Map;
 
 public class StoreBean {
-    InventoryBean inventoryBean = new InventoryBean();
-    ShoppingCartBean shoppingCartBean = new ShoppingCartBean();
+    InventoryBean inventoryBean;
+    ShoppingCartBean shoppingCartBean;
     UIBean uiBean;
 
-    public StoreBean(UIBean uiBean) {
+    public StoreBean(InventoryBean inventoryBean, ShoppingCartBean shoppingCartBean, UIBean uiBean) {
+        this.inventoryBean = inventoryBean;
+        this.shoppingCartBean = shoppingCartBean;
         this.uiBean = uiBean;
         this.init();
     }
