@@ -20,6 +20,9 @@ The application must be able to function as intended in JDK 8
         - spring-context-5.2.9.RELEASE.jar
         - spring-core-5.2.9.RELEASE.jar
         - spring-expression-5.2.9.RELEASE.jar
+    - The dependencies can be download from following website
+        - https://repo.spring.io/release/org/springframework/spring/5.2.9.RELEASE/
+        - http://commons.apache.org/proper/commons-logging/download_logging.cgi
 6. to run the application, go to `UIBean.java` and run the `main` method
 
 ### Others
