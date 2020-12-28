@@ -1,10 +1,10 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReviewBoard {
+public class ReviewBoardBean {
     Map<String, String> reviews = new HashMap<>();
 
-    public ReviewBoard(){
+    public ReviewBoardBean(){
     }
 
     public void addReview(String product){
