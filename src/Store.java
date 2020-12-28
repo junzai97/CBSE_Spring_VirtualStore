@@ -4,6 +4,7 @@ import java.util.Map;
 public class Store {
     Inventory inventory = new Inventory();
     ShoppingCart shoppingCart = new ShoppingCart();
+    ReviewBoard reviewBoard = new ReviewBoard();
     UI ui;
 
     public Store(UI ui) {
@@ -32,6 +33,10 @@ public class Store {
         return this.inventory.getAllProductsStock();
     }
 
+    public Map<String, String> getAllReviews() {
+        return this.reviewBoard.getReviews();
+    }
+
     public void addItemToCart(Product product, int quantity) {
         if (product != null) {
             if (this.inventory.getStock(product) >= quantity) {
@@ -50,6 +55,21 @@ public class Store {
             if (quantity != 0) {
                 this.inventory.increaseStock(product, quantity);
                 this.shoppingCart.removeItem(product, quantity);
+            }
+        }
+    }
+
+    public void addItemsToReview(String product) {
+        if(product != null) {
+            this.reviewBoard.addReview(product);
+        }
+        System.out.println(reviewBoard);
+    }
+
+    public void reviewItem(String product, String reviewMessage) {
+        if(product != null){
+            if(reviewMessage != null){
+                this.reviewBoard.setReview(product, reviewMessage);
             }
         }
     }
