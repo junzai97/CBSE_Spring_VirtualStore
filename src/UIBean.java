@@ -3,23 +3,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class UI {
+public class UIBean {
     static Scanner scanner;
-    private Store store;
+    private StoreBean storeBean;
 
     static {
         scanner = new Scanner(System.in);
     }
 
-    public UI() {
+    public UIBean() {
     }
 
-    public void setStore(Store store) {
-        this.store = store;
+    public void setStoreBean(StoreBean storeBean) {
+        this.storeBean = storeBean;
     }
 
     public void displayProducts() {
-        Map<Product, Integer> products = this.store.getAllProductsStock();
+        Map<Product, Integer> products = this.storeBean.getAllProductsStock();
         System.out.println("\n------------------");
         System.out.println(" AVAILABLE PRODUCTS");
         System.out.println("--------------------\n");
@@ -38,7 +38,7 @@ public class UI {
     }
 
     public Product selectItemToBuy() {
-        List<Product> products = this.store.getAvailableProducts();
+        List<Product> products = this.storeBean.getAvailableProducts();
         System.out.println("\n---------");
         System.out.println(" CATALOG");
         System.out.println("---------\n");
@@ -82,7 +82,7 @@ public class UI {
     }
 
     public Product[] displayShoppingCart() {
-        Map<Product, Integer> shoppedProducts = this.store.getShoppedProducts();
+        Map<Product, Integer> shoppedProducts = this.storeBean.getShoppedProducts();
         System.out.println("\n---------------------------------");
         System.out.println(" DISPLAYING ITEMS IN SHOPPING CART");
         System.out.println("-----------------------------------\n");
@@ -126,7 +126,7 @@ public class UI {
 
     public int selectQuantityToRemove(Product product) {
         System.out.println("How many " + product.getName() + " would you like to remove?");
-        Map<Product, Integer> shoppedProducts = this.store.getShoppedProducts();
+        Map<Product, Integer> shoppedProducts = this.storeBean.getShoppedProducts();
         int currentQuantity = (Integer)shoppedProducts.get(product);
         System.out.println("Currently Shopping Cart contains : " + currentQuantity);
         int removalQty = scanner.nextInt();
@@ -144,7 +144,7 @@ public class UI {
     }
 
     public void displayCheckOut() {
-        double totalPrice = this.store.getShoppingCartPrice();
+        double totalPrice = this.storeBean.getShoppingCartPrice();
         System.out.printf("Please Pay $%1$,-8.2f\n", totalPrice);
         System.out.println("Thank you for your patronage! Please visit again!");
     }
@@ -163,35 +163,35 @@ public class UI {
     }
 
     public static void main(String[] args) {
-        UI ui = new UI();
-        Store store = new Store(ui);
-        ui.setStore(store);
+        UIBean uiBean = new UIBean();
+        StoreBean storeBean = new StoreBean(uiBean);
+        uiBean.setStoreBean(storeBean);
 
-        for(int userChoice = ui.mainMenu(); userChoice > 0 && userChoice <= 4; userChoice = ui.mainMenu()) {
+        for(int userChoice = uiBean.mainMenu(); userChoice > 0 && userChoice <= 4; userChoice = uiBean.mainMenu()) {
             switch(userChoice) {
                 case 1:
-                    ui.displayProducts();
+                    uiBean.displayProducts();
                     break;
                 case 2:
-                    Product selectedProduct = ui.selectItemToBuy();
+                    Product selectedProduct = uiBean.selectItemToBuy();
                     if (selectedProduct != null) {
-                        int quantity = ui.selectQuantityToBuy(selectedProduct);
-                        store.addItemToCart(selectedProduct, quantity);
+                        int quantity = uiBean.selectQuantityToBuy(selectedProduct);
+                        storeBean.addItemToCart(selectedProduct, quantity);
                     }
                     break;
                 case 3:
-                    Product product = ui.selectItemToRemove();
+                    Product product = uiBean.selectItemToRemove();
                     if (product == null) {
                         return;
                     }
 
-                    int quantity = ui.selectQuantityToRemove(product);
-                    store.removeItemsFromCart(product, quantity);
-                    ui.displayShoppingCart();
+                    int quantity = uiBean.selectQuantityToRemove(product);
+                    storeBean.removeItemsFromCart(product, quantity);
+                    uiBean.displayShoppingCart();
                     break;
                 case 4:
-                    ui.displayCheckOut();
-                    store.checkOut();
+                    uiBean.displayCheckOut();
+                    storeBean.checkOut();
             }
         }
 
