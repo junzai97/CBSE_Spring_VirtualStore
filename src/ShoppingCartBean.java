@@ -2,10 +2,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ShoppingCart {
+public class ShoppingCartBean {
     private Map<Product, Integer> shoppedProducts = new HashMap();
 
-    public ShoppingCart() {
+    public ShoppingCartBean() {
     }
 
     public void addItem(Product product, int quantity) {

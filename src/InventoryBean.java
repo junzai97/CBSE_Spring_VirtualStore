@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class Inventory {
+public class InventoryBean {
     Map<Product, Integer> products = new HashMap();
 
-    public Inventory() {
+    public InventoryBean() {
     }
 
     public void addProduct(Product product, int stock) {
