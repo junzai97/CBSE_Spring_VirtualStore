@@ -152,6 +152,55 @@ public class UIBean {
         System.out.println("Thank you for your patronage! Please visit again!");
     }
 
+    public void addToReviewBoard(Map<Product, Integer> products){
+        Iterator var7 = products.keySet().iterator();
+
+        while(var7.hasNext()) {
+            Product product = (Product)var7.next();
+            storeBean.addItemsToReview(product.getName());
+        }
+    }
+
+    public String[] displayReview(){
+        Map<String, String> reviews = this.storeBean.getAllReviews();
+        System.out.println("\n---------");
+        System.out.println(" REVIEW");
+        System.out.println("---------\n");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("No.\t\tITEM\t\t\t\tReview");
+        System.out.println("----------------------------------------------------------------\n");
+        int productIndex = 0;
+        Iterator var5 = reviews.keySet().iterator();
+        String[] products = new String[reviews.size()];
+
+        while(var5.hasNext()) {
+            String product = (String) var5.next();
+            products[productIndex] = product;
+            ++productIndex;
+            String reviewMessage = reviews.get(product) == null? "Waiting to be review" : reviews.get(product);
+            System.out.printf("%1$d.\t\t%2$s\t\t\t%3$s\n", productIndex, product, reviewMessage);
+        }
+
+        return products;
+    }
+
+    public void selectItemToReview(){
+        String[] products = displayReview();
+        System.out.print("\nPlease select item no. to review or insert 0 to exit: ");
+        int selectedIndex = scanner.nextInt();
+        scanner.nextLine();
+        if(selectedIndex == 0){
+            System.out.println("Back to main menu");
+        } else if (selectedIndex > 0 && selectedIndex <= products.length) {
+            String selectedProduct = products[selectedIndex-1];
+            System.out.println("\nPlease write your review: ");
+            String message = scanner.nextLine();
+            storeBean.reviewItem(selectedProduct, message);
+        } else {
+            System.out.println("ERROR - Invalid item specification\n");
+        }
+    }
+
     public int mainMenu() {
         System.out.println("\n-------------------");
         System.out.println(" WELCOME TO eSTORE!");
@@ -160,7 +209,8 @@ public class UIBean {
         System.out.println("2. Add item to shopping cart");
         System.out.println("3. Remove item from shopping cart");
         System.out.println("4. Check Out");
-        System.out.println("5. Exit");
+        System.out.println("5. Review purchased item");
+        System.out.println("6. Exit");
         System.out.println("\nChoose an option:");
         return scanner.nextInt();
     }
@@ -170,7 +220,7 @@ public class UIBean {
         StoreBean storeBean = (StoreBean) context.getBean("storeBean");
         UIBean uiBean = (UIBean) context.getBean("uiBean");
 
-        for(int userChoice = uiBean.mainMenu(); userChoice > 0 && userChoice <= 4; userChoice = uiBean.mainMenu()) {
+        for(int userChoice = uiBean.mainMenu(); userChoice > 0 && userChoice <= 5; userChoice = uiBean.mainMenu()) {
             switch(userChoice) {
                 case 1:
                     uiBean.displayProducts();
@@ -194,7 +244,13 @@ public class UIBean {
                     break;
                 case 4:
                     uiBean.displayCheckOut();
+                    Map<Product, Integer> products = storeBean.getShoppedProducts();
+                    uiBean.addToReviewBoard(products);
                     storeBean.checkOut();
+                    break;
+                case 5:
+                    uiBean.selectItemToReview();
+                    break;
             }
         }
 
